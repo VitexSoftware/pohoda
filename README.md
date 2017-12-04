@@ -1,9 +1,11 @@
 # Pohoda XML
 
-[![Build Status](https://img.shields.io/travis/riesenia/pohoda/master.svg?style=flat-square)](https://travis-ci.org/riesenia/pohoda)
-[![Latest Version](https://img.shields.io/packagist/v/rshop/pohoda.svg?style=flat-square)](https://packagist.org/packages/rshop/pohoda)
-[![Total Downloads](https://img.shields.io/packagist/dt/rshop/pohoda.svg?style=flat-square)](https://packagist.org/packages/rshop/pohoda)
+[![Build Status](https://img.shields.io/travis/vitexsoftware/pohoda/master.svg?style=flat-square)](https://travis-ci.org/vitexsoftware/pohoda)
+[![Latest Version](https://img.shields.io/packagist/v/vitexsoftware/pohoda.svg?style=flat-square)](https://packagist.org/packages/vitexsoftware/pohoda)
+[![Total Downloads](https://img.shields.io/packagist/dt/vitexsoftware/pohoda.svg?style=flat-square)](https://packagist.org/packages/vitexsoftware/pohoda)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+
+Díky Firmě www.riesenia.com za původní verzi jejich knihovny: https://github.com/riesenia/pohoda ze které tento fork vychází
 
 ## Inštalácia
 
@@ -12,7 +14,7 @@ Pridaním do *composer.json*:
 ```json
 {
     "require": {
-        "rshop/pohoda": "1.x-dev"
+        "vitexsoftware/pohoda": "1.x-dev"
     }
 }
 ```
