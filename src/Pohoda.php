@@ -11,7 +11,7 @@ use Rshop\Synchronization\Pohoda\Agenda;
 class Pohoda
 {
     /**
-     * All avaailable namespaces
+     * All available namespaces
      *
      * @var array
      */
