@@ -18,7 +18,19 @@
     },
     "autoload": {
         "psr-4": {
-            "Rshop\\Synchronization\\": "src/"
+            "Rshop\\Synchronization\\": "src/",
+            "Rshop\\Synchronization\\Pohoda\\": "src/Pohoda/",
+            "Rshop\\Synchronization\\Pohoda\\Addressbook\\": "src/Pohoda/Addressbook/",
+            "Rshop\\Synchronization\\Pohoda\\Common\\": "src/Pohoda/Common/",
+            "Rshop\\Synchronization\\Pohoda\\Contract\\": "src/Pohoda/Contract/",
+            "Rshop\\Synchronization\\Pohoda\\IntParam\\": "src/Pohoda/IntParam/",
+            "Rshop\\Synchronization\\Pohoda\\Invoice\\": "src/Pohoda/Invoice/",
+            "Rshop\\Synchronization\\Pohoda\\IssueSlip\\": "src/Pohoda/IssueSlip/",
+            "Rshop\\Synchronization\\Pohoda\\Order\\": "src/Pohoda/Order/",
+            "Rshop\\Synchronization\\Pohoda\\Stock\\": "src/Pohoda/Stock/",
+            "Rshop\\Synchronization\\Pohoda\\StockTransfer\\": "src/Pohoda/StockTransfer/",
+            "Rshop\\Synchronization\\Pohoda\\Type\\": "src/Pohoda/Type/",
+            "Rshop\\Synchronization\\Pohoda\\UserList\\": "src/Pohoda/UserList/"
         }
     },
     "extra": {
