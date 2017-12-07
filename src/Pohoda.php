@@ -54,7 +54,7 @@ class Pohoda
      */
     public function __construct($ico)
     {
-        $this->_ico = $ico;
+        $this->ico($ico);
     }
 
     /**
@@ -62,6 +62,7 @@ class Pohoda
      *
      * @param string agenda name
      * @param string optional data
+     * 
      * @return Rshop\Synchronization\Pohoda\Agenda
      */
     public function create($name, $data = array())
@@ -75,6 +76,21 @@ class Pohoda
         return new $fullName($data, $this->_ico);
     }
 
+    /**
+     * Create and return instance of requested agenda with actionType:update
+     *
+     * @param string agenda name
+     * @param string optional data
+     * 
+     * @return Rshop\Synchronization\Pohoda\Agenda
+     */
+    public function update($name, $data = array(),$filter)
+    {
+        $agenda = $this->create($name,$data);
+        $agenda->setActionToUpdate($filter);
+        return $agenda;
+    }
+    
     /**
      * Open new XML file for writing
      *
@@ -200,11 +216,16 @@ class Pohoda
      */
     public function __call($method, $arguments)
     {
+        // udate<Agenda> method
+        if (preg_match('/update([A-Z][a-zA-Z0-9]*)/', $method, $matches)) {
+            return call_user_func(array($this, 'update'), $matches[1], isset($arguments[0]) ? $arguments[0] : array(), isset($arguments[1]) ? $arguments[1] : array());
+        }
+
         // create<Agenda> method
         if (preg_match('/create([A-Z][a-zA-Z0-9]*)/', $method, $matches)) {
             return call_user_func(array($this, 'create'), $matches[1], isset($arguments[0]) ? $arguments[0] : array());
         }
-
+        
         // load<Agenda> method
         if (preg_match('/load([A-Z][a-zA-Z0-9]*)/', $method, $matches)) {
             if (!isset($arguments[0])) {
@@ -216,4 +237,20 @@ class Pohoda
 
         throw new \BadMethodCallException("Unknown method: " . $method);
     }
+    
+    /**
+     * ICO Getter/Setter
+     * 
+     * @link https://cs.wikipedia.org/wiki/Identifika%C4%8Dn%C3%AD_%C4%8D%C3%ADslo_osoby Identification number of person
+     * @param string $ico new value to set
+     * 
+     * @return string current used value
+     */
+    public function ico($ico = null){
+        if(!empty($ico)){
+            $this->_ico = $ico;
+        }
+        return $ico;
+    }
+    
 }

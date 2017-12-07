@@ -107,3 +107,26 @@ while ($stock = $pohoda->next()) {
     // ...
 }
 ```
+
+#Příklad doplnění externího id do Adresáře
+
+```php
+use Rshop\Synchronization\Pohoda;
+
+$pohoda = new Pohoda('ICO');
+
+ $recordData = [
+            'identity' => [
+                'extId' => [
+                    'ids' => $extID,
+                    'exSystemName' => 'Číslo zákazníka',
+                    'exSystemText' => 'Externí ID z excelu'
+                ]
+            ]
+         ];
+
+$addressBookUpdate = $pohoda->updateAddressbook($recordData, ['company' => htmlspecialchars( 'Firma s.r.o.' )]);
+pohoda->addItem('update adresy', $addressBookUpdate);
+
+
+```

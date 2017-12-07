@@ -1,4 +1,5 @@
 <?php
+
 namespace Rshop\Synchronization\Pohoda;
 
 use Rshop\Synchronization\Pohoda;
@@ -77,15 +78,17 @@ abstract class Agenda
      */
     protected function _createXML()
     {
-        return new \SimpleXMLElement('<?xml version="1.0" encoding="Windows-1250"?><root ' . implode(' ', array_map(function ($k, $v) {
-            return 'xmlns:' . $k . '="' . $v . '"';
-        }, array_keys(Pohoda::$namespaces), Pohoda::$namespaces)) . '></root>');
+        return new \SimpleXMLElement('<?xml version="1.0" encoding="Windows-1250"?><root '.implode(' ',
+                array_map(function ($k, $v) {
+                    return 'xmlns:'.$k.'="'.$v.'"';
+                }, array_keys(Pohoda::$namespaces), Pohoda::$namespaces)).'></root>');
     }
 
     /**
      * Get namespace
      *
      * @param string
+     * 
      * @return string
      */
     protected function _namespace($short)
@@ -107,9 +110,11 @@ abstract class Agenda
      * @param \SimpleXMLElement
      * @param array
      * @param string namespace
+     * 
      * @return void
      */
-    protected function _addElements(\SimpleXMLElement $xml, array $elements, $namespace = null)
+    protected function _addElements(\SimpleXMLElement $xml, array $elements,
+                                    $namespace = null)
     {
         foreach ($elements as $element) {
             if (!isset($this->_data[$element])) {
@@ -118,7 +123,9 @@ abstract class Agenda
 
             // ref element
             if (in_array($element, $this->_refElements)) {
-                $this->_addRefElement($xml, ($namespace ? $namespace . ':' : '') . $element, $this->_data[$element], $namespace);
+                $this->_addRefElement($xml,
+                    ($namespace ? $namespace.':' : '').$element,
+                    $this->_data[$element], $namespace);
                 continue;
             }
 
@@ -127,16 +134,20 @@ abstract class Agenda
                 list($attrElement, $attrName, $attrNamespace) = $this->_elementsAttributesMapper[$element];
 
                 // get element
-                $attrElement = $namespace ? $xml->children($namespace, true)->{$attrElement} : $xml->{$attrElement};
+                $attrElement = $namespace ? $xml->children($namespace, true)->{$attrElement}
+                        : $xml->{$attrElement};
 
-                $attrElement->addAttribute(($attrNamespace ? $attrNamespace . ':' : '') . $attrName, htmlspecialchars($this->_data[$element]), $this->_namespace($attrNamespace));
+                $attrElement->addAttribute(($attrNamespace ? $attrNamespace.':' : '').$attrName,
+                    htmlspecialchars($this->_data[$element]),
+                    $this->_namespace($attrNamespace));
                 continue;
             }
 
             // Agenda object
             if ($this->_data[$element] instanceof self) {
                 // set namespace
-                if ($namespace && method_exists($this->_data[$element], 'setNamespace')) {
+                if ($namespace && method_exists($this->_data[$element],
+                        'setNamespace')) {
                     $this->_data[$element]->setNamespace($namespace);
                 }
 
@@ -151,7 +162,8 @@ abstract class Agenda
 
             // array of Agenda objects
             if (is_array($this->_data[$element])) {
-                $child = $xml->addChild(($namespace ? $namespace . ':' : '') . $element, null, $this->_namespace($namespace));
+                $child = $xml->addChild(($namespace ? $namespace.':' : '').$element,
+                    null, $this->_namespace($namespace));
 
                 foreach ($this->_data[$element] as $node) {
                     $this->_appendNode($child, $node->getXML());
@@ -160,7 +172,9 @@ abstract class Agenda
                 continue;
             }
 
-            $xml->addChild(($namespace ? $namespace . ':' : '') . $element, htmlspecialchars($this->_data[$element]), $this->_namespace($namespace));
+            $xml->addChild(($namespace ? $namespace.':' : '').$element,
+                htmlspecialchars($this->_data[$element]),
+                $this->_namespace($namespace));
         }
     }
 
@@ -173,7 +187,8 @@ abstract class Agenda
      * @param string namespace
      * @return \SimpleXMLElement
      */
-    protected function _addRefElement(\SimpleXMLElement $xml, $name, $value, $namespace = null)
+    protected function _addRefElement(\SimpleXMLElement $xml, $name, $value,
+                                      $namespace = null)
     {
         $node = $xml->addChild($name, null, $this->_namespace($namespace));
 
@@ -182,7 +197,8 @@ abstract class Agenda
         }
 
         foreach ($value as $key => $value) {
-            $node->addChild('typ:' . $key, htmlspecialchars($value), $this->_namespace('typ'));
+            $node->addChild('typ:'.$key, htmlspecialchars($value),
+                $this->_namespace('typ'));
         }
 
         return $node;
@@ -195,9 +211,10 @@ abstract class Agenda
      * @param \SimpleXMLElement
      * @return void
      */
-    protected function _appendNode(\SimpleXMLElement $xml, \SimpleXMLElement $node)
+    protected function _appendNode(\SimpleXMLElement $xml,
+                                   \SimpleXMLElement $node)
     {
-        $dom = dom_import_simplexml($xml);
+        $dom  = dom_import_simplexml($xml);
         $dom2 = dom_import_simplexml($node);
 
         $dom->appendChild($dom->ownerDocument->importNode($dom2, true));
@@ -214,8 +231,9 @@ abstract class Agenda
         $resolver = new OptionsResolver();
 
         // define string normalizers
-        foreach ([4, 7, 8, 9, 10, 12, 15, 16, 18, 20, 24, 32, 38, 40, 45, 48, 64, 90, 98, 240, 255] as $length) {
-            $resolver->{'string' . $length . 'Normalizer'} = $this->_createStringNormalizer($length);
+        foreach ([4, 7, 8, 9, 10, 12, 15, 16, 18, 20, 24, 32, 38, 40, 45, 48, 64,
+        90, 98, 240, 255] as $length) {
+            $resolver->{'string'.$length.'Normalizer'} = $this->_createStringNormalizer($length);
         }
 
         // define date normalizer
@@ -262,7 +280,7 @@ abstract class Agenda
                     $time = strtotime($value);
 
                     if (!$time) {
-                        throw new \DomainException("Not a valid date: " . $value);
+                        throw new \DomainException("Not a valid date: ".$value);
                     }
 
                     return date('Y-m-d', $time);
@@ -273,7 +291,7 @@ abstract class Agenda
                     $time = strtotime($value);
 
                     if (!$time) {
-                        throw new \DomainException("Not a valid time: " . $value);
+                        throw new \DomainException("Not a valid time: ".$value);
                     }
 
                     return date('H:i:s', $time);
@@ -282,13 +300,14 @@ abstract class Agenda
             case 'float':
             case 'number':
                 return function ($options, $value) {
-                    return (float)str_replace(',', '.', preg_replace('/[^0-9,.-]/', '', $value));
+                    return (float) str_replace(',', '.',
+                            preg_replace('/[^0-9,.-]/', '', $value));
                 };
 
             case 'int':
             case 'integer':
                 return function ($options, $value) {
-                    return (int)$value;
+                    return (int) $value;
                 };
 
             case 'bool':
@@ -298,7 +317,7 @@ abstract class Agenda
                 };
 
             default:
-                throw new \DomainException("Not a valid normalizer type: " . $type);
+                throw new \DomainException("Not a valid normalizer type: ".$type);
         }
     }
 
@@ -312,10 +331,24 @@ abstract class Agenda
     public function __call($method, $arguments)
     {
         // _create<Type>Normalizer for creating normalizers
-        if (preg_match('/_create([A-Z][a-zA-Z0-9]+)Normalizer/', $method, $matches)) {
-            return call_user_func([$this, '_createNormalizer'], lcfirst($matches[1]), isset($arguments[0]) ? $arguments[0] : null);
+        if (preg_match('/_create([A-Z][a-zA-Z0-9]+)Normalizer/', $method,
+                $matches)) {
+            return call_user_func([$this, '_createNormalizer'],
+                lcfirst($matches[1]),
+                isset($arguments[0]) ? $arguments[0] : null);
         }
 
-        throw new \BadMethodCallException("Unknown method: " . $method);
+        throw new \BadMethodCallException("Unknown method: ".$method);
+    }
+
+    /**
+     * Update mode enabler 
+     * 
+     * @link https://www.stormware.cz/xml/samples/version_2/import/Adresy/address_04_v2.0.xml XML Example
+     * @param array $filter ['company'=> 'STORMWARE s.r.o.' ]
+     */
+    public function setActionToUpdate($filter)
+    {
+        $this->addActionType('update', $filter);
     }
 }
