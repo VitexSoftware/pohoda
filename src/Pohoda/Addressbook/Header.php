@@ -22,7 +22,7 @@ class Header extends Agenda
      *
      * @var array
      */
-    protected $_elements = ['identity', 'region', 'phone', 'mobil', 'fax', 'email', 'web', 'ICQ', 'Skype', 'GPS', 'credit', 'priceIDS', 'maturity', 'paymentType', 'agreement', 'number', 'ost1', 'ost2', 'message', 'note', 'intNote', 'centre', 'activity', 'contract'];
+    protected $_elements = ['identity', 'region', 'phone', 'mobil', 'fax', 'email', 'web', 'ICQ', 'Skype', 'GPS', 'credit', 'priceIDS', 'maturity', 'paymentType', 'agreement', 'number', 'ost1', 'ost2', 'message', 'note', 'intNote', 'centre', 'activity', 'contract','p1','p2'];
 
     /**
      * Configure options for options resolver
@@ -52,6 +52,8 @@ class Header extends Agenda
         $resolver->setNormalizer('ost1', $resolver->string8Normalizer);
         $resolver->setNormalizer('ost2', $resolver->string8Normalizer);
         $resolver->setNormalizer('message', $resolver->string64Normalizer);
+        $resolver->setNormalizer('p1', $resolver->boolNormalizer); //Dodavatel
+        $resolver->setNormalizer('p2', $resolver->boolNormalizer); //Odberatel
     }
 
     /**
