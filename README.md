@@ -6,7 +6,7 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 
-!['Project Logo'](https://raw.githubusercontent.com/VitexSoftware/pohoda/master/phpohoda)
+[!['Project Logo'](https://raw.githubusercontent.com/VitexSoftware/pohoda/master/phpohoda.png)]
 
 Díky Firmě www.riesenia.com za původní verzi jejich knihovny: https://github.com/riesenia/pohoda ze které tento fork vychází
 
