@@ -1,4 +1,4 @@
-# Pohoda XML
+# Pohoda XML !['Project Logo'](https://raw.githubusercontent.com/VitexSoftware/pohoda/master/phpohoda.png)
 
 [![Build Status](https://img.shields.io/travis/VitexSoftware/pohoda/master.svg?style=flat-square)](https://travis-ci.org/vitexsoftware/pohoda)
 [![Latest Version](https://img.shields.io/packagist/v/vitexsoftware/pohoda.svg?style=flat-square)](https://packagist.org/packages/vitexsoftware/pohoda)
@@ -6,7 +6,6 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 
-[!['Project Logo'](https://raw.githubusercontent.com/VitexSoftware/pohoda/master/phpohoda.png)]
 
 Díky Firmě www.riesenia.com za původní verzi jejich knihovny: https://github.com/riesenia/pohoda ze které tento fork vychází
 
