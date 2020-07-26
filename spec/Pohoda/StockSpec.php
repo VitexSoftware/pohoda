@@ -1,5 +1,14 @@
 <?php
-namespace spec\Rshop\Synchronization\Pohoda;
+/**
+ * This file is part of riesenia/pohoda package.
+ *
+ * Licensed under the MIT License
+ * (c) RIESENIA.com
+ */
+
+declare(strict_types=1);
+
+namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
 
@@ -22,8 +31,8 @@ class StockSpec extends ObjectBehavior
 
     public function it_is_initializable_and_extends_agenda()
     {
-        $this->shouldHaveType('Rshop\Synchronization\Pohoda\Stock');
-        $this->shouldHaveType('Rshop\Synchronization\Pohoda\Agenda');
+        $this->shouldHaveType('Riesenia\Pohoda\Stock');
+        $this->shouldHaveType('Riesenia\Pohoda\Agenda');
     }
 
     public function it_creates_correct_xml()
@@ -71,7 +80,6 @@ class StockSpec extends ObjectBehavior
             'intParameterID' => 1,
             'intParameterType' => 'numberValue',
             'value' => 'VALUE1',
-
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<stk:stock version="2.0"><stk:stockHeader>' . $this->_defaultHeader() . '<stk:intParameters><stk:intParameter><stk:intParameterID>1</stk:intParameterID><stk:intParameterType>numberValue</stk:intParameterType><stk:intParameterValues><stk:intParameterValue><stk:parameterValue>VALUE1</stk:parameterValue></stk:intParameterValue></stk:intParameterValues></stk:intParameter></stk:intParameters></stk:stockHeader></stk:stock>');
@@ -85,6 +93,18 @@ class StockSpec extends ObjectBehavior
         $this->addParameter('CustomList', 'list', ['id' => 5], ['id' => 6]);
 
         $this->getXML()->asXML()->shouldReturn('<stk:stock version="2.0"><stk:stockHeader>' . $this->_defaultHeader() . '<stk:parameters><typ:parameter><typ:name>VPrIsOn</typ:name><typ:booleanValue>true</typ:booleanValue></typ:parameter><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter><typ:parameter><typ:name>RefVPrCountry</typ:name><typ:listValueRef><typ:ids>SK</typ:ids></typ:listValueRef><typ:list><typ:ids>Country</typ:ids></typ:list></typ:parameter><typ:parameter><typ:name>RefVPrCustomList</typ:name><typ:listValueRef><typ:id>5</typ:id></typ:listValueRef><typ:list><typ:id>6</typ:id></typ:list></typ:parameter></stk:parameters></stk:stockHeader></stk:stock>');
+    }
+
+    protected function it_can_delete_stock()
+    {
+        $this->beConstructedWith([], '123');
+
+        $this->addActionType('delete', [
+            'code' => 'CODE',
+            'store' => ['ids' => 'STORAGE']
+        ]);
+
+        $this->getXML()->asXML()->shouldReturn('<stk:stock version="2.0"><stk:actionType><stk:delete><ftr:filter><ftr:code>CODE</ftr:code><ftr:store><typ:ids>STORAGE</typ:ids></ftr:store></ftr:filter></stk:delete></stk:actionType></stk:stock>');
     }
 
     protected function _defaultHeader()
