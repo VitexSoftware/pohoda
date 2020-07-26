@@ -1,9 +1,13 @@
-# Pohoda XML
+# Pohoda XML !['Project Logo'](https://raw.githubusercontent.com/VitexSoftware/pohoda/master/phpohoda.png)
 
-[![Build Status](https://img.shields.io/travis/riesenia/pohoda/master.svg?style=flat-square)](https://travis-ci.org/riesenia/pohoda)
+[![Build Status](https://img.shields.io/travis/vitexsoftware/pohoda /master.svg?style=flat-square)](https://travis-ci.org/vitexsoftware/pohoda )
 [![Latest Version](https://img.shields.io/packagist/v/rshop/pohoda.svg?style=flat-square)](https://packagist.org/packages/rshop/pohoda)
 [![Total Downloads](https://img.shields.io/packagist/dt/rshop/pohoda.svg?style=flat-square)](https://packagist.org/packages/rshop/pohoda)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+
+
+
+Díky Firmě www.riesenia.com za původní verzi jejich knihovny: https://github.com/riesenia/pohoda ze které tento fork vychází
 
 ## Inštalácia
 
@@ -12,7 +16,7 @@ Pridaním do *composer.json*:
 ```json
 {
     "require": {
-        "riesenia/pohoda": "~1.0"
+        "vitexsoftware/pohoda ": "~1.0"
     }
 }
 ```
@@ -20,7 +24,7 @@ Pridaním do *composer.json*:
 Príkazom:
 
 ```sh
-composer require 'riesenia/pohoda:~1.0'
+composer require 'vitexsoftware/pohoda :~1.0'
 ```
 
 ## Príklad importu objednávok
