@@ -9,33 +9,24 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
-        "symfony/options-resolver": "~2.0"
+        "php": ">=7.1",
+        "symfony/options-resolver": "~4.0 || ~5.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.0",
-        "bossa/phpspec2-expect": "*"
+        "bossa/phpspec2-expect": "*",
+        "friendsofphp/php-cs-fixer": "~2.0",
+        "phpspec/phpspec": "~5.0 || ~6.0",
+        "phpstan/phpstan": "~0.12",
+        "rshop/php-cs-fixer-config": "~2.0"
     },
     "autoload": {
         "psr-4": {
-            "Rshop\\Synchronization\\": "src/",
-            "Rshop\\Synchronization\\Pohoda\\": "src/Pohoda/",
-            "Rshop\\Synchronization\\Pohoda\\Addressbook\\": "src/Pohoda/Addressbook/",
-            "Rshop\\Synchronization\\Pohoda\\Common\\": "src/Pohoda/Common/",
-            "Rshop\\Synchronization\\Pohoda\\Contract\\": "src/Pohoda/Contract/",
-            "Rshop\\Synchronization\\Pohoda\\IntParam\\": "src/Pohoda/IntParam/",
-            "Rshop\\Synchronization\\Pohoda\\Invoice\\": "src/Pohoda/Invoice/",
-            "Rshop\\Synchronization\\Pohoda\\IssueSlip\\": "src/Pohoda/IssueSlip/",
-            "Rshop\\Synchronization\\Pohoda\\Order\\": "src/Pohoda/Order/",
-            "Rshop\\Synchronization\\Pohoda\\Stock\\": "src/Pohoda/Stock/",
-            "Rshop\\Synchronization\\Pohoda\\StockTransfer\\": "src/Pohoda/StockTransfer/",
-            "Rshop\\Synchronization\\Pohoda\\Type\\": "src/Pohoda/Type/",
-            "Rshop\\Synchronization\\Pohoda\\UserList\\": "src/Pohoda/UserList/"
+            "Riesenia\\": "src/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-old": "1.x-dev"
         }
     }
 }

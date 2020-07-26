@@ -1,54 +1,45 @@
 <?php
-namespace Rshop\Synchronization\Pohoda;
+/**
+ * This file is part of riesenia/pohoda package.
+ *
+ * Licensed under the MIT License
+ * (c) RIESENIA.com
+ */
 
-use Rshop\Synchronization\Pohoda\Common\AddActionTypeTrait;
-use Rshop\Synchronization\Pohoda\Common\AddParameterToHeaderTrait;
-use Rshop\Synchronization\Pohoda\Addressbook\Header;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+declare(strict_types=1);
+
+namespace Riesenia\Pohoda;
+
+use Riesenia\Pohoda\Addressbook\Header;
+use Riesenia\Pohoda\Common\AddActionTypeTrait;
+use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
+use Riesenia\Pohoda\Common\OptionsResolver;
 
 class Addressbook extends Agenda
 {
-    use AddActionTypeTrait, AddParameterToHeaderTrait;
+    use AddActionTypeTrait;
+    use AddParameterToHeaderTrait;
 
-    /**
-     * Root for import
-     *
-     * @var string
-     */
+    /** @var string */
     public static $importRoot = 'lAdb:addressbook';
 
     /**
-     * Configure options for options resolver
-     *
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver
+     * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
-    {
-        // available options
-        $resolver->setDefined(['header']);
-    }
-
-    /**
-     * Construct agenda using provided data
-     *
-     * @param array data
-     * @param string ICO
-     * @param bool if options resolver should be used
-     */
-    public function __construct($data, $ico, $resolveOptions = true)
+    public function __construct(array $data, string $ico, bool $resolveOptions = true)
     {
         // pass to header
-        $data = ['header' => new Header($data, $ico, $resolveOptions)];
+        if ($data) {
+            $data = ['header' => new Header($data, $ico, $resolveOptions)];
+        }
 
         parent::__construct($data, $ico, $resolveOptions);
     }
 
     /**
-     * Get XML
-     *
-     * @return \SimpleXMLElement
+     * {@inheritdoc}
      */
-    public function getXML()
+    public function getXML(): \SimpleXMLElement
     {
         $xml = $this->_createXML()->addChild('adb:addressbook', null, $this->_namespace('adb'));
         $xml->addAttribute('version', '2.0');
@@ -56,5 +47,14 @@ class Addressbook extends Agenda
         $this->_addElements($xml, ['actionType', 'header'], 'adb');
 
         return $xml;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _configureOptions(OptionsResolver $resolver)
+    {
+        // available options
+        $resolver->setDefined(['header']);
     }
 }

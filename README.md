@@ -1,13 +1,9 @@
-# Pohoda XML !['Project Logo'](https://raw.githubusercontent.com/VitexSoftware/pohoda/master/phpohoda.png)
+# Pohoda XML
 
-[![Build Status](https://img.shields.io/travis/VitexSoftware/pohoda/master.svg?style=flat-square)](https://travis-ci.org/vitexsoftware/pohoda)
-[![Latest Version](https://img.shields.io/packagist/v/vitexsoftware/pohoda.svg?style=flat-square)](https://packagist.org/packages/vitexsoftware/pohoda)
-[![Total Downloads](https://img.shields.io/packagist/dt/vitexsoftware/pohoda.svg?style=flat-square)](https://packagist.org/packages/vitexsoftware/pohoda)
+[![Build Status](https://img.shields.io/travis/riesenia/pohoda/master.svg?style=flat-square)](https://travis-ci.org/riesenia/pohoda)
+[![Latest Version](https://img.shields.io/packagist/v/rshop/pohoda.svg?style=flat-square)](https://packagist.org/packages/rshop/pohoda)
+[![Total Downloads](https://img.shields.io/packagist/dt/rshop/pohoda.svg?style=flat-square)](https://packagist.org/packages/rshop/pohoda)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-
-
-
-Díky Firmě www.riesenia.com za původní verzi jejich knihovny: https://github.com/riesenia/pohoda ze které tento fork vychází
 
 ## Inštalácia
 
@@ -16,22 +12,28 @@ Pridaním do *composer.json*:
 ```json
 {
     "require": {
-        "vitexsoftware/pohoda": "1.x-dev"
+        "riesenia/pohoda": "~1.0"
     }
 }
 ```
 
-## Príklad exportu objednávok
+Príkazom:
 
-Príklady pre export jednotlivých typov viď. *spec* folder.
+```sh
+composer require 'riesenia/pohoda:~1.0'
+```
+
+## Príklad importu objednávok
+
+Príklady pre import jednotlivých typov viď. *spec* folder.
 
 ```php
-use Rshop\Synchronization\Pohoda;
+use Riesenia\Pohoda;
 
 $pohoda = new Pohoda('ICO');
 
 // create file
-$pohoda->open($filename, 'Import orders');
+$pohoda->open($filename, 'i_obj1', 'Import orders');
 
 // create order
 $order = $pohoda->createOrder([
@@ -83,22 +85,40 @@ $order->addSummary([
     'roundingDocument' => 'none'
 ]);
 
-// add order to export (identified by $order_number)
+// add order to import (identified by $order_number)
 $pohoda->addItem($order_number, $order);
 
-// finish export
+// finish import file
 $pohoda->close();
 ```
 
-## Príklad importu produktov
+## Príklad exportu zásob
 
-Import je riešený jednoducho - vracia *SimpleXMLElement* s danou entitou.
+Vytvorenie príkazu na export sa realizuje prostredníctvom vytvorenia *ListRequest*.
 
 ```php
-use Rshop\Synchronization\Pohoda;
+use Riesenia\Pohoda;
 
 $pohoda = new Pohoda('ICO');
 
+// create request for export
+$pohoda->open($filename, 'e_zas1', 'Export stock');
+
+$request = $pohoda->createListRequest([
+    'type' => 'Stock'
+]);
+
+// optional filter
+$request->addUserFilterName('MyFilter');
+
+$pohoda->addItem('Export 001', $request);
+
+$pohoda->close();
+```
+
+Samotné spracovanie dát je riešené jednoducho - volanie `next` vracia *SimpleXMLElement* s danou entitou.
+
+```php
 // load file
 $pohoda->loadStock($filename);
 
@@ -110,27 +130,25 @@ while ($stock = $pohoda->next()) {
 }
 ```
 
-## Příklad doplnění externího id do Adresáře
+## Príklad zmazania zásoby
 
-Když je pro import dokladů z externího systému je třeba sloučit již existující položky adresáře a přidat jim externí ID z původního systému
+Pri mazaní je potrebné vytvoriť agendu s prázdnymi dátami a nastaviť jej *delete* actionType.
 
 ```php
-use Rshop\Synchronization\Pohoda;
+use Riesenia\Pohoda;
 
 $pohoda = new Pohoda('ICO');
 
- $recordData = [
-            'identity' => [
-                'extId' => [
-                    'ids' => $extID,
-                    'exSystemName' => 'Číslo zákazníka',
-                    'exSystemText' => 'Externí ID z excelu'
-                ]
-            ]
-         ];
+// create request for deletion
+$pohoda->open($filename, 'd_zas1', 'Delete stock');
 
-$addressBookUpdate = $pohoda->updateAddressbook($recordData, ['company' => htmlspecialchars( 'Novák & Syn s.r.o.' )]);
-pohoda->addItem('update adresy', $addressBookUpdate);
+$stock = $pohoda->createStock([]);
 
+$stock->addActionType('delete', [
+    'code' => $code
+]);
 
+$pohoda->addItem($code, $stock);
+
+$pohoda->close();
 ```

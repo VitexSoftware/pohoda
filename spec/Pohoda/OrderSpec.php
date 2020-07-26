@@ -1,5 +1,14 @@
 <?php
-namespace spec\Rshop\Synchronization\Pohoda;
+/**
+ * This file is part of riesenia/pohoda package.
+ *
+ * Licensed under the MIT License
+ * (c) RIESENIA.com
+ */
+
+declare(strict_types=1);
+
+namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
 
@@ -24,8 +33,8 @@ class OrderSpec extends ObjectBehavior
 
     public function it_is_initializable_and_extends_agenda()
     {
-        $this->shouldHaveType('Rshop\Synchronization\Pohoda\Order');
-        $this->shouldHaveType('Rshop\Synchronization\Pohoda\Agenda');
+        $this->shouldHaveType('Riesenia\Pohoda\Order');
+        $this->shouldHaveType('Riesenia\Pohoda\Agenda');
     }
 
     public function it_creates_correct_xml()
@@ -35,11 +44,11 @@ class OrderSpec extends ObjectBehavior
 
     public function it_can_set_action_type()
     {
-        $this->addActionType('delete', [
+        $this->addActionType('update', [
             'numberOrder' => '222'
         ]);
 
-        $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:actionType><ord:delete><ftr:filter><ftr:numberOrder>222</ftr:numberOrder></ftr:filter></ord:delete></ord:actionType><ord:orderHeader>' . $this->_defaultHeader() . '</ord:orderHeader></ord:order>');
+        $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:actionType><ord:update><ftr:filter><ftr:numberOrder>222</ftr:numberOrder></ftr:filter></ord:update></ord:actionType><ord:orderHeader>' . $this->_defaultHeader() . '</ord:orderHeader></ord:order>');
     }
 
     public function it_can_add_items()
@@ -94,6 +103,17 @@ class OrderSpec extends ObjectBehavior
         $this->addParameter('CustomList', 'list', ['id' => 5], ['id' => 6]);
 
         $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:orderHeader>' . $this->_defaultHeader() . '<ord:parameters><typ:parameter><typ:name>VPrIsOn</typ:name><typ:booleanValue>true</typ:booleanValue></typ:parameter><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter><typ:parameter><typ:name>RefVPrCountry</typ:name><typ:listValueRef><typ:ids>SK</typ:ids></typ:listValueRef><typ:list><typ:ids>Country</typ:ids></typ:list></typ:parameter><typ:parameter><typ:name>RefVPrCustomList</typ:name><typ:listValueRef><typ:id>5</typ:id></typ:listValueRef><typ:list><typ:id>6</typ:id></typ:list></typ:parameter></ord:parameters></ord:orderHeader></ord:order>');
+    }
+
+    public function it_can_delete_order()
+    {
+        $this->beConstructedWith([], '123');
+
+        $this->addActionType('delete', [
+            'number' => '222'
+        ], 'prijate_objednavky');
+
+        $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:actionType><ord:delete><ftr:filter agenda="prijate_objednavky"><ftr:number>222</ftr:number></ftr:filter></ord:delete></ord:actionType></ord:order>');
     }
 
     protected function _defaultHeader()
