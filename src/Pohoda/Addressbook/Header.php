@@ -1,11 +1,11 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
  * Licensed under the MIT License
  * (c) RIESENIA.com
  */
-
 declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Addressbook;
@@ -15,21 +15,20 @@ use Riesenia\Pohoda\Common\AddParameterTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Type\Address;
 
-class Header extends Agenda
-{
+class Header extends Agenda {
+
     use AddParameterTrait;
 
     /** @var array */
     protected $_refElements = ['centre', 'activity', 'contract', 'number'];
 
     /** @var array */
-    protected $_elements = ['identity', 'region', 'phone', 'mobil', 'fax', 'email', 'web', 'ICQ', 'Skype', 'GPS', 'credit', 'priceIDS', 'maturity', 'paymentType', 'agreement', 'number', 'ost1', 'ost2', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'message', 'note', 'intNote', 'centre', 'activity', 'contract'];
+    protected $_elements = ['identity', 'region', 'phone', 'mobil', 'fax', 'email', 'web', 'ICQ', 'Skype', 'GPS', 'credit', 'priceIDS', 'maturity', 'paymentType', 'agreement', 'number', 'ost1', 'ost2', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'message', 'note', 'intNote', 'centre', 'activity', 'contract', 'p1', 'p2'];
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
-    {
+    public function __construct(array $data, string $ico, bool $resolveOptions = true) {
         // process identity
         if (isset($data['identity'])) {
             $data['identity'] = new Address($data['identity'], $ico, $resolveOptions);
@@ -41,8 +40,7 @@ class Header extends Agenda
     /**
      * {@inheritdoc}
      */
-    public function getXML(): \SimpleXMLElement
-    {
+    public function getXML(): \SimpleXMLElement {
         $xml = $this->_createXML()->addChild('adb:addressbookHeader', null, $this->_namespace('adb'));
 
         $this->_addElements($xml, \array_merge($this->_elements, ['parameters']), 'adb');
@@ -53,8 +51,7 @@ class Header extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
-    {
+    protected function _configureOptions(OptionsResolver $resolver) {
         // available options
         $resolver->setDefined($this->_elements);
 
@@ -82,5 +79,8 @@ class Header extends Agenda
         $resolver->setNormalizer('p5', $resolver->getNormalizer('bool'));
         $resolver->setNormalizer('p6', $resolver->getNormalizer('bool'));
         $resolver->setNormalizer('message', $resolver->getNormalizer('string64'));
+        $resolver->setNormalizer('p1', $resolver->getNormalizer('bool')); //Dodavatel
+        $resolver->setNormalizer('p2', $resolver->getNormalizer('bool')); //Odberatel    
     }
+
 }
