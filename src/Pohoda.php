@@ -112,12 +112,13 @@ class Pohoda
     /**
      * Create and return instance of requested agenda with actionType:update
      *
-     * @param string agenda name
-     * @param string optional data
+     * @param string $name agenda name
+     * @param array  $data
+     * @param array  $filter Additional filter
      * 
-     * @return Rshop\Synchronization\Pohoda\Agenda
+     * @return Agenda
      */
-    public function update($name, $data = array(),$filter)
+    public function update($name, $data, $filter = []): Agenda
     {
         $agenda = $this->create($name,$data);
         $agenda->setActionToUpdate($filter);
@@ -286,7 +287,7 @@ class Pohoda
      * @link https://cs.wikipedia.org/wiki/Identifika%C4%8Dn%C3%AD_%C4%8D%C3%ADslo_osoby Identification number of person
      * @param string $ico new value to set
      * 
-     * @return string current used value
+     * @return string|null current used value
      */
     public function ico($ico = null){
         if(!empty($ico)){

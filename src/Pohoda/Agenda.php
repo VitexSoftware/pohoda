@@ -181,7 +181,7 @@ abstract class Agenda
         if (!\is_array($value)) {
             $value = ['ids' => $value];
         }
-
+            
         foreach ($value as $key => $value) {
             $node->addChild('typ:' . $key, \htmlspecialchars((string) $value), $this->_namespace('typ'));
         }
@@ -200,10 +200,10 @@ abstract class Agenda
         $dom = \dom_import_simplexml($xml);
         $dom2 = \dom_import_simplexml($node);
 
-        if ($dom === false || $dom2 === false) {
+        if ($dom === false || $dom2 === false || is_null($dom->ownerDocument)) {
             throw new \InvalidArgumentException('Invalid XML.');
         }
-
+        
         $dom->appendChild($dom->ownerDocument->importNode($dom2, true));
     }
 

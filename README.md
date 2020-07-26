@@ -1,6 +1,6 @@
 # Pohoda XML !['Project Logo'](https://raw.githubusercontent.com/VitexSoftware/pohoda/master/phpohoda.png)
 
-[![Build Status](https://img.shields.io/travis/vitexsoftware/pohoda /master.svg?style=flat-square)](https://travis-ci.org/vitexsoftware/pohoda )
+[![Build Status](https://travis-ci.org/VitexSoftware/pohoda.svg?branch=master)](https://travis-ci.org/VitexSoftware/pohoda)
 [![Latest Version](https://img.shields.io/packagist/v/rshop/pohoda.svg?style=flat-square)](https://packagist.org/packages/rshop/pohoda)
 [![Total Downloads](https://img.shields.io/packagist/dt/rshop/pohoda.svg?style=flat-square)](https://packagist.org/packages/rshop/pohoda)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
@@ -155,4 +155,21 @@ $stock->addActionType('delete', [
 $pohoda->addItem($code, $stock);
 
 $pohoda->close();
+```
+#Příklad doplnění externího id do Adresáře
+
+```php
+use Rshop\Synchronization\Pohoda;
+$pohoda = new Pohoda('ICO');
+ $recordData = [
+            'identity' => [
+                'extId' => [
+                    'ids' => $extID,
+                    'exSystemName' => 'Číslo zákazníka',
+                    'exSystemText' => 'Externí ID z excelu'
+                ]
+            ]
+         ];
+$addressBookUpdate = $pohoda->updateAddressbook($recordData, ['company' => htmlspecialchars( 'Firma s.r.o.' )]);
+pohoda->addItem('update adresy', $addressBookUpdate);
 ```
